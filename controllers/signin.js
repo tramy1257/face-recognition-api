@@ -1,6 +1,11 @@
 const signin = (req, res, db, bcrypt) => {
   const { email, password } = req.body;
 
+  // validate input:
+  if (!(email && password)) {
+    return res.status(400).json("Invalid Input");
+  }
+
   db.select('hash').from('login').where('email', email)
   .then(hash => {
     const passwordMatch = bcrypt.compareSync(password, hash[0].hash);

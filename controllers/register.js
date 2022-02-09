@@ -1,5 +1,11 @@
 const register = (req, res, db, bcrypt) => {
   const { email, name, password } = req.body;
+
+  // validate input:
+  if (!(email && password && name)) {
+    return res.status(400).json("Invalid Input");
+  }
+
   const hash = bcrypt.hashSync(password);
 
   db.transaction(trx => {
